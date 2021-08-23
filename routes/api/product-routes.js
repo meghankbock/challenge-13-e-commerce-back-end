@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
 
 // get one product
 router.get("/:id", (req, res) => {
-  Product.findone({
+  Product.findOne({
     where: {
       id: req.params.id,
     },

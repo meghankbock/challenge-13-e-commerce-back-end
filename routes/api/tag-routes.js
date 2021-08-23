@@ -7,24 +7,18 @@ router.get("/", (req, res) => {
   Tag.findAll({
     attributes: ["id", "tag_name"],
     include: [
-      {
-        model: ProductTag,
-        attributes: ["id", "product_id", "tag_id"],
-        include: [
           {
             model: Product,
+            as: 'products',
             attributes: ["id", "product_name", "price", "stock", "category_id"],
             include: [
               {
                 model: Category,
                 attributes: ["id", "category_name"],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  })
+              }
+            ]
+          }]
+      })
     .then((dbTagData) => res.json(dbTagData))
     .catch((err) => {
       console.log(err);
@@ -40,22 +34,16 @@ router.get("/:id", (req, res) => {
     attributes: ["id", "tag_name"],
     include: [
       {
-        model: ProductTag,
-        attributes: ["id", "product_id", "tag_id"],
+        model: Product,
+        as: 'products',
+        attributes: ["id", "product_name", "price", "stock", "category_id"],
         include: [
           {
-            model: Product,
-            attributes: ["id", "product_name", "price", "stock", "category_id"],
-            include: [
-              {
-                model: Category,
-                attributes: ["id", "category_name"],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+            model: Category,
+            attributes: ["id", "category_name"],
+          }
+        ]
+      }]
   })
   .then((dbTagData) => {
     if (!dbTagData) {
